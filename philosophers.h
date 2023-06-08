@@ -6,14 +6,18 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/04 22:26:55 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:56:39 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+# ifndef PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <limits.h>
 
 
 //The Philosopher struct represents an individual philosopher
@@ -48,3 +52,5 @@ typedef struct {
     pthread_mutex_t *mutex;
     pthread_t    *threads;
 } DiningTable;
+
+#endif
