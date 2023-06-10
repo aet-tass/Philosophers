@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   philosophers.h       ########    ## #     ##    ##             ## ##     */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/10 12:32:33 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/   ########    ##      # #    ##    ##  ##           ##    */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <limits.h>
-
+#include <sys/time.h>
 
 //The Philosopher struct represents an individual philosopher
 
