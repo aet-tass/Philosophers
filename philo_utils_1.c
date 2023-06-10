@@ -6,11 +6,18 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:12:59 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/10 11:19:43 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/11 00:31:22 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	ft_isdigit(int ch)
+{
+	if (ch >= '0' && ch <= '9')
+		return (1);
+	return (0);
+}
 
 int	ft_strlen(char	*str)
 {
@@ -23,7 +30,7 @@ int	ft_strlen(char	*str)
 	return (i);
 }
 
-int	get_sign(const char *str, int *index)
+int	get_sign( char *str, int *index)
 {
 	int	sign;
 
@@ -37,7 +44,7 @@ int	get_sign(const char *str, int *index)
 	return (sign);
 }
 
-int	convert_to_int(const char *str, int *index)
+int	convert_to_int(char *str, int *index)
 {
 	int	res;
 	int	s;
@@ -58,7 +65,7 @@ int	convert_to_int(const char *str, int *index)
 	return (res);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(char *str)
 {
 	int	i;
 	int	sign;

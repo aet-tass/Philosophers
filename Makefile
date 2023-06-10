@@ -6,14 +6,14 @@
 #    By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/04 17:09:58 by aet-tass          #+#    #+#              #
-#    Updated: 2023/06/04 17:12:14 by aet-tass         ###   ########.fr        #
+#    Updated: 2023/06/11 00:36:10 by aet-tass         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC =
+SRC = philo_utils_1.c philosophers.c store_args.c
 OBJ = ${SRC:.c=.o}
 
-NAME = 
+NAME = philo
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -24,19 +24,19 @@ AR = ar -rc
 CC = cc
 
 %.o:%.c
-        ${CC} ${CFLAGS} -c $<
+	${CC}  -c $<
 
 all : ${NAME}
 
 ${NAME}: ${OBJ}
-        ${AR} ${NAME} ${OBJ}
+	 ${CC} ${OBJ} -o ${NAME}
 
 clean:
-        ${RM} ${OBJ}
+	${RM} ${OBJ}
 
 fclean: clean
-        ${RM} ${NAME}
+	${RM} ${NAME}
 
 re: fclean all
 
-.PHONY:         all clean fclean re
+.PHONY: all clean fclean re
