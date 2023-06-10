@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/08 17:56:39 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/10 12:32:33 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,9 @@ typedef struct {
     pthread_t    *threads;
 } DiningTable;
 
+
+void	ft_putstr_fd(char *s, int fd);
+
 #endif
+//gcc -fsanitize=thread -g threads.c && ./a.out
+

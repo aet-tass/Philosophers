@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:55 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/04 22:51:08 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/10 13:39:23 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ void *routine(void *arg)
 		// usleep(10000);
 	while (1)
 	{
+		// add a function print because we need to check if a philo is died 
 		printf("%d philo is thinking \n", philo->philosopher_id);
 		printf("%d philo has taken a fork \n", philo->philosopher_id);
 		pthread_mutex_lock(philo->left_fork);
 		printf("%d philo has taken a fork \n", philo->philosopher_id);
 		pthread_mutex_lock(philo->left_fork);
 		printf("%d philo is eating \n", philo->philosopher_id);
-		// usleep(200 * 1000);
+		// usleep(200 * 1000);  creete a function ft_sleep just adding a while check if not arriving in the exacte time
 		printf("%d philo is slepping \n", philo->philosopher_id);
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->left_fork);

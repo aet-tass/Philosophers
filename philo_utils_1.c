@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:12:59 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/08 17:58:17 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/10 11:19:43 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,9 @@ int	ft_atoi(const char *str)
 		exit(1);
 	}
 	return (res);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
 }
