@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:55 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/11 00:33:38 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/12 00:21:17 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,29 @@ long ft_time(void)
     return time_in_ms;
 }
 
-// int check_philosopher_dead(DiningTable *table)
-// {
-//     long current_time_ms = ft_time();
-//     long time_since_last_meal = current_time_ms - table->last_meal_time.tv_sec * 1000 + table->last_meal_time.tv_usec / 1000;
+int check_philosopher_dead(DiningTable *table)
+{
+    // long current_time_ms = ft_time();
+    // long time_since_last_meal = current_time_ms - table->last_meal_time.tv_sec * 1000 + table->last_meal_time.tv_usec / 1000;
+    int i = 0;
+    while (1)
+        i = 0;
+        while (i < table->args->num_philosophers)
+        {
+            printf("%ld\n", ft_time() - table->philosophers[i]->last_meal);
+            if (ft_time() - table->philosophers[i]->last_meal > table->args->time_to_die)
+            {
+                table->is_philosopher_dead = 1;
+                exit(1);
+            }
+            i++;
+        }
 
-//     if (time_since_last_meal > table->args->time_to_die)
-//     {
-//         table->is_philosopher_dead = 1;
-//         return 1;
-//     }
-
-//     return 0;
-// }
+    return 0;
+}
 void *routine(void *arg)
 {
     Philosopher *philo = (Philosopher *)arg;
-    if (philo->philosopher_id % 2 != 0)
-        // usleep(5000);
-
     while (1)
     {
         // Check if the philosopher is dead
@@ -48,12 +52,13 @@ void *routine(void *arg)
         //     return NULL;
         // }
         printf("%d philo is thinking\n", philo->philosopher_id);
-        printf("%d philo has taken a fork\n", philo->philosopher_id);
         pthread_mutex_lock(philo->left_fork);
         printf("%d philo has taken a fork\n", philo->philosopher_id);
         pthread_mutex_lock(philo->right_fork);
+        printf("%d philo has taken a fork\n", philo->philosopher_id);
         printf("%d philo is eating\n", philo->philosopher_id);
-        // ft_sleep(philosopher->time_to_eat);
+        philo->last_meal = ft_time();
+        // usleep(500 * 1000);
         printf("%d philo is sleeping\n", philo->philosopher_id);
         pthread_mutex_unlock(philo->left_fork);
         pthread_mutex_unlock(philo->right_fork);
@@ -66,50 +71,56 @@ void *routine(void *arg)
 }
 void initialize_table(DiningTable *table)
 {
-    table->mutex = (pthread_mutex_t*)malloc(sizeof(pthread_mutex_t) * table->args->num_philosophers);
-    table->threads = (pthread_t*)malloc(sizeof(pthread_t) * table->args->num_philosophers);
-    table->philosophers = (Philosopher*)malloc(sizeof(Philosopher) * table->args->num_philosophers);
-
+    table->mutex = (pthread_mutex_t**)malloc(sizeof(pthread_mutex_t*) * table->args->num_philosophers);
     int i;
+    long time = ft_time();
     for (i = 0; i < table->args->num_philosophers; i++)
     {
-        pthread_mutex_init(&(table->mutex[i]), NULL);
+        table->mutex[i] = malloc(sizeof(pthread_mutex_t));
+        pthread_mutex_init(table->mutex[i], NULL);
+    }
+    for (i = 0; i < table->args->num_philosophers; i++)
+    {
+        table->philosophers[i] = malloc(sizeof(Philosopher));
+        table->philosophers[i]->last_meal = time;
+        table->philosophers[i]->philosopher_id = i + 1;
+        table->philosophers[i]->left_fork = table->mutex[i];
+        table->philosophers[i]->right_fork = table->mutex[(i + 1) % table->args->num_philosophers];
 
-        Philosopher *philosopher = &(table->philosophers[i]);
-        philosopher->philosopher_id = i + 1;
-        philosopher->left_fork = &(table->mutex[i]);
-        philosopher->right_fork = &(table->mutex[(i + 1) % table->args->num_philosophers]);
-        pthread_create(&(table->threads[i]), NULL, &routine, philosopher);
+    }
+    for (i = 0; i < table->args->num_philosophers; i++)
+    {
+        pthread_create(&table->philosophers[i]->tid, NULL, routine, table->philosophers[i]);
     }
 }
 
 int main(int argc, char *argv[])
 {
-    DiningTable table;
+    DiningTable *table = malloc(sizeof(DiningTable));
+    int i;
 
 
-    if (!check_and_store_arguments(argc, argv, &table))
+    if (!check_and_store_arguments(argc, argv, table))
     {
         ft_putstr_fd("Error: Invalid arguments\n", 2);
         return 1;
     }
 
-    initialize_table(&table);
+    // check_philosopher_dead(&table);
 
-    int i;
-    for (i = 0; i < table.args->num_philosophers; i++)
-    {
-        pthread_join(table.threads[i], NULL);
-    }
+    initialize_table(table);
+    // for (i = 0; i < table.args->num_philosophers; i++)
+    // {
+    //     pthread_mutex_destroy(&(table.mutex[i]));
+    // }
 
-    for (i = 0; i < table.args->num_philosophers; i++)
-    {
-        pthread_mutex_destroy(&(table.mutex[i]));
-    }
-
-    free(table.mutex);
-    free(table.threads);
-    free(table.philosophers);
+    // for (i = 0; i < table.args->num_philosophers; i++)
+    // {
+    //     pthread_join(table.threads[i], NULL);
+    // }
+    // free(table.mutex);
+    // free(table.threads);
+    // free(table.philosophers);
 
     return 0;
 }

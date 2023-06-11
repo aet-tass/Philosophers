@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/11 00:32:35 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/12 00:13:51 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct s_args
 typedef struct {
     //ading a variable int last_eat : inisialise au debut avec the start time( the time we joined);
     int philosopher_id;
+    pthread_t tid;
+    long start;
+    long last_meal;
     pthread_mutex_t* left_fork;
     pthread_mutex_t* right_fork;
 } Philosopher;
@@ -53,8 +56,8 @@ typedef struct {
     // the routine function , before doing anything we should check that int , if is died it takes 1 so we did
     // nothing
 
-    Philosopher *philosophers;
-    pthread_mutex_t *mutex;
+    Philosopher **philosophers;
+    pthread_mutex_t **mutex;
     pthread_t    *threads;
     t_args      *args;
     int is_philosopher_dead;
@@ -63,7 +66,7 @@ typedef struct {
 
 void	ft_putstr_fd(char *s, int fd);
 long ft_time(void);
-int check_philosopher_dead(Philosopher *philo);
+int check_philosopher_dead(DiningTable *philo);
 int check_and_store_arguments(int argc, char *argv[], DiningTable *table);
 int	ft_atoi(char *str);
 int	ft_isdigit(int ch);
