@@ -6,7 +6,7 @@
 #    By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/04 17:09:58 by aet-tass          #+#    #+#              #
-#    Updated: 2023/06/11 23:56:26 by aet-tass         ###   ########.fr        #
+#    Updated: 2023/06/12 18:06:43 by aet-tass         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJ = ${SRC:.c=.o}
 
 NAME = philo
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 

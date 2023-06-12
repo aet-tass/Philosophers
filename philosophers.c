@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:55 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/12 00:21:17 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/12 19:08:20 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,190 +22,112 @@ long ft_time(void)
 
 int check_philosopher_dead(DiningTable *table)
 {
-    // long current_time_ms = ft_time();
-    // long time_since_last_meal = current_time_ms - table->last_meal_time.tv_sec * 1000 + table->last_meal_time.tv_usec / 1000;
+    // last_meal = current_time_ms - table->last_meal_time.tv_sec * 1000 + table->last_meal_time.tv_usec / 1000;
     int i = 0;
     while (1)
         i = 0;
         while (i < table->args->num_philosophers)
         {
-            printf("%ld\n", ft_time() - table->philosophers[i]->last_meal);
-            if (ft_time() - table->philosophers[i]->last_meal > table->args->time_to_die)
+            printf("%ld\n", ft_time() - table->philosophers[i].last_meal);
+            if (ft_time() - table->philosophers[i].last_meal > table->args->time_to_die)
             {
                 table->is_philosopher_dead = 1;
-                exit(1);
+                return 1;
             }
             i++;
         }
 
     return 0;
 }
+
 void *routine(void *arg)
 {
     Philosopher *philo = (Philosopher *)arg;
+    if (philo->philosopher_id % 2 != 0)
+        usleep(500);
     while (1)
     {
-        // Check if the philosopher is dead
         // if (check_philosopher_dead(philo))
         // {
-        //     // Philosopher is dead, do nothing
         //     return NULL;
         // }
-        printf("%d philo is thinking\n", philo->philosopher_id);
+        printf("%ld %d is thinking\n",ft_time() - philo->start,  philo->philosopher_id);
         pthread_mutex_lock(philo->left_fork);
-        printf("%d philo has taken a fork\n", philo->philosopher_id);
+        printf("%ld %d has taken a fork\n", ft_time() - philo->start, philo->philosopher_id);
         pthread_mutex_lock(philo->right_fork);
-        printf("%d philo has taken a fork\n", philo->philosopher_id);
-        printf("%d philo is eating\n", philo->philosopher_id);
+        printf("%ld %d has taken a fork\n", ft_time() - philo->start,  philo->philosopher_id);
+        printf("%ld %d is eating\n",ft_time() - philo->start,  philo->philosopher_id);
         philo->last_meal = ft_time();
-        // usleep(500 * 1000);
-        printf("%d philo is sleeping\n", philo->philosopher_id);
+        usleep(philo->args->time_to_eat * 1000);
+        // printf("*%d*\n", );
         pthread_mutex_unlock(philo->left_fork);
         pthread_mutex_unlock(philo->right_fork);
-        // time_since_last_meal = ft_time();
-        // ft_sleep(philosopher->time_to_sleep);
-        // check_philosopher_dead(philo);
-    }
+        printf("%ld %d is sleeping\n",ft_time() - philo->start,  philo->philosopher_id);
+        usleep(philo->args->time_to_sleep * 1000);
+        // printf("*%d*\n", philo->args->time_to_sleep );
 
+    }
+    // printf("%d\n", philo->args->num_philosophers);
     return NULL;
 }
+
 void initialize_table(DiningTable *table)
 {
-    table->mutex = (pthread_mutex_t**)malloc(sizeof(pthread_mutex_t*) * table->args->num_philosophers);
+    table->mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * table->args->num_philosophers);
+    for (int i = 0; i < table->args->num_philosophers; i++)
+    {
+        // table->mutex[i] = malloc(sizeof(pthread_mutex_t));
+        pthread_mutex_init(&(table->mutex[i]), NULL);
+    }
+
     int i;
+
     long time = ft_time();
+    table->philosophers = (Philosopher*)malloc(sizeof(Philosopher) * table->args->num_philosophers);
+    // printf("*%d*\n", table->args->num_philosophers);
     for (i = 0; i < table->args->num_philosophers; i++)
     {
-        table->mutex[i] = malloc(sizeof(pthread_mutex_t));
-        pthread_mutex_init(table->mutex[i], NULL);
+        // table->philosophers[i] = malloc(sizeof(Philosopher));
+        table->philosophers[i].last_meal = time;
+        table->philosophers[i].args = table->args;
+        table->philosophers[i].start = time;
+        table->philosophers[i].philosopher_id = i + 1;
+        table->philosophers[i].left_fork = &table->mutex[i];
+        table->philosophers[i].right_fork = &table->mutex[(i + 1) % table->args->num_philosophers];
+
     }
+    table->threads = (pthread_t *)malloc(sizeof(pthread_t) * table->args->num_philosophers);
     for (i = 0; i < table->args->num_philosophers; i++)
     {
-        table->philosophers[i] = malloc(sizeof(Philosopher));
-        table->philosophers[i]->last_meal = time;
-        table->philosophers[i]->philosopher_id = i + 1;
-        table->philosophers[i]->left_fork = table->mutex[i];
-        table->philosophers[i]->right_fork = table->mutex[(i + 1) % table->args->num_philosophers];
-
+        pthread_create(&table->threads[i], NULL, routine, &table->philosophers[i]);
     }
-    for (i = 0; i < table->args->num_philosophers; i++)
-    {
-        pthread_create(&table->philosophers[i]->tid, NULL, routine, table->philosophers[i]);
-    }
-}
-
-int main(int argc, char *argv[])
-{
-    DiningTable *table = malloc(sizeof(DiningTable));
-    int i;
-
-
-    if (!check_and_store_arguments(argc, argv, table))
-    {
-        ft_putstr_fd("Error: Invalid arguments\n", 2);
-        return 1;
-    }
-
-    // check_philosopher_dead(&table);
-
-    initialize_table(table);
-    // for (i = 0; i < table.args->num_philosophers; i++)
-    // {
-    //     pthread_mutex_destroy(&(table.mutex[i]));
-    // }
-
-    // for (i = 0; i < table.args->num_philosophers; i++)
-    // {
-    //     pthread_join(table.threads[i], NULL);
-    // }
-    // free(table.mutex);
-    // free(table.threads);
-    // free(table.philosophers);
-
-    return 0;
-}
-
-
-/*void *routine(void *arg)
-{
-	Philosopher *philo = (Philosopher *)arg;
-	if (philo->philosopher_id % 2 != 0)
-		// usleep(10000);
-	while (1)
-	{
-		// add a function print because we need to check if a philo is died
-		printf("%d philo is thinking \n", philo->philosopher_id);
-		printf("%d philo has taken a fork \n", philo->philosopher_id);
-		pthread_mutex_lock(philo->left_fork);
-		printf("%d philo has taken a fork \n", philo->philosopher_id);
-		pthread_mutex_lock(philo->left_fork);
-		printf("%d philo is eating \n", philo->philosopher_id);
-		// usleep(200 * 1000);  creete a function ft_sleep just adding a while check if not arriving in the exacte time
-		printf("%d philo is slepping \n", philo->philosopher_id);
-		pthread_mutex_unlock(philo->left_fork);
-		pthread_mutex_unlock(philo->left_fork);
-		//ti_eat = get_time(): get_time had the gettimeofday;
-		// usleep(200 * 100);
-		//slep(df, &check); this function i should make it that sleep and also check the value of check.
-	}
-
-	return (NULL);
-}
-
-int	main()
-{
-	DiningTable Dining_Table;
-	Dining_Table.mutex = malloc(sizeof(pthread_mutex_t) * 5);
-	Dining_Table.threads = malloc(sizeof(pthread_t) * 5);
-	Dining_Table.philosophers = malloc(sizeof(Philosopher) * 5);
-
-	int	 i = 0;
-	while (i < 5)
-	{
-		pthread_mutex_init(&Dining_Table.mutex[i], NULL);
-		i++;
-	}
-
-	i = 0;
-	while (i < 5)
-	{
-		Dining_Table.philosophers[i].philosopher_id = i + 1 ;
-		// filing all the args ex time_to_die ......
-
-		Dining_Table.philosophers[i].left_fork = &Dining_Table.mutex[i];
-		Dining_Table.philosophers[i].right_fork = &Dining_Table.mutex[(i + 1) % 5];
-		pthread_create(&Dining_Table.threads[i], NULL, &routine, &Dining_Table.philosophers[i]);
-		i++;
-	}
-	i = 0;
-	while (i < 5)
-	{
-		pthread_mutex_destroy(&Dining_Table.mutex[i]);
-		i++;
-	}
-
-	i = 0;
-	while (i < 5)
-	{
-		Dining_Table.philosophers[i].philosopher_id = i + 1 ;
-		pthread_join(Dining_Table.threads[i], NULL);
-		i++;
-	}
-
 }
 
 int main(int argc, char *argv[])
 {
     DiningTable table;
+    int i;
+
 
     if (!check_and_store_arguments(argc, argv, &table))
     {
-        // Arguments checking failed, exit the program
+        ft_putstr_fd("Error: Invalid arguments\n", 2);
         return 1;
     }
+    // check_philosopher_dead(&table);
+    initialize_table(&table);
 
-    // Continue with the program logic using the stored arguments in the 'table' variable
+    for (i = 0; i < table.args->num_philosophers; i++)
+    {
+        pthread_mutex_destroy(&table.mutex[i]);
+    }
+    for (i = 0; i < table.args->num_philosophers; i++)
+    {
+        pthread_join(table.threads[i], NULL);
+    }
+//     free(table->mutex);
+//     free(table->threads);
+//     free(table->philosophers);
 
     return 0;
 }
-*/
