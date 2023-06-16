@@ -19,7 +19,7 @@ int	ft_isdigit(int ch)
 	return (0);
 }
 
-int	ft_strlen(char	*str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ int	ft_strlen(char	*str)
 	return (i);
 }
 
-int	get_sign( char *str, int *index)
+int	get_sign(char *str, int *index)
 {
 	int	sign;
 
