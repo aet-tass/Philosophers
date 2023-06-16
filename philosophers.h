@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/12 18:33:08 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/16 17:32:35 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ typedef struct s_args
 }   t_args;
 
 typedef struct {
+    int nbr_of_meals_eaten;
     int philosopher_id;
     t_args  *args;
-    // int number_of_times_each_philosopher_must_eat;
+    int number_of_times_each_philosopher_must_eat;
     pthread_t tid;
     long start;
     long last_meal;
     pthread_mutex_t* left_fork;
     pthread_mutex_t* right_fork;
+    void *table;
 } Philosopher;
 
 typedef struct {
@@ -48,6 +50,7 @@ typedef struct {
     pthread_t    *threads;
     t_args         *args;
     int is_philosopher_dead;
+    int philo_dead_id;
 } DiningTable;
 
 void	ft_putstr_fd(char *s, int fd);
