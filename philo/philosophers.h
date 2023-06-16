@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/16 19:23:32 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/16 22:23:41 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,16 @@ int check_and_store_arguments(int argc, char *argv[], DiningTable *table);
 int	ft_atoi(char *str);
 int	ft_isdigit(int ch);
 int	ft_strlen(char	*str);
+void    ft_sleep(int time, DiningTable *table);
+long ft_time(void);
+void ft_detach(DiningTable *table);
+void *routine(void *arg);
+int is_time_to_die(DiningTable *table, int philosopher_index);
+int has_philosopher_eaten_enough(DiningTable *table, int philosopher_index);
+int is_philosopher_dead(DiningTable *table);
+void initialize_mutexes(DiningTable *table);
+void initialize_philosophers(DiningTable *table);
+void initialize_threads(DiningTable *table);
+void initialize_table(DiningTable *table);
 
 #endif

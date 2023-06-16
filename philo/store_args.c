@@ -30,6 +30,11 @@ int check_and_store_arguments(int argc, char *argv[], DiningTable *table)
     table->args->time_to_eat = ft_atoi(argv[3]);
     table->args->time_to_sleep = ft_atoi(argv[4]);
     table->args->time_to_die = ft_atoi(argv[2]);
+    if (table->args->time_to_eat == 0 ||  table->args->time_to_sleep == 0 || table->args->time_to_die == 0)
+    {
+        ft_putstr_fd("Error: Invalid argument\n", 2);
+            return 0;
+    }
     if (argc == 6)
     {
         table->args->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
