@@ -6,7 +6,7 @@
 #    By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/04 17:09:58 by aet-tass          #+#    #+#              #
-#    Updated: 2023/06/16 22:24:08 by aet-tass         ###   ########.fr        #
+#    Updated: 2023/06/18 22:32:42 by aet-tass         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ OBJ = ${SRC:.c=.o}
 
 NAME = philo
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g
 
 RM = rm -f
 
@@ -24,7 +24,7 @@ AR = ar -rc
 CC = cc
 
 %.o:%.c
-	${CC} -g -c $<
+	${CC} ${CFLAGS}  -c $<
 
 all : ${NAME}
 

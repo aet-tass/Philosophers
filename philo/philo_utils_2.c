@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aet-tass <aet-tass@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:39:30 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/16 22:55:58 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:22:05 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	ft_putstr_fd(char *s, int fd)
 	write(fd, s, ft_strlen(s));
 }
 
-void	ft_sleep(int time, t_DiningTable *table)
+void	ft_sleep(int time)
 {
 	long	start;
 
 	start = ft_time();
-	while (ft_time() - start < time && !table->is_philosopher_dead)
+	while (ft_time() - start < time)
 		usleep(500);
 }
 
@@ -49,7 +49,7 @@ void	ft_detach(t_DiningTable *table)
 	i = 0;
 	while (i < table->args->num_philosophers)
 	{
-		pthread_mutex_destroy(&table->mutex[i]);
+		pthread_mutex_destroy(table->mutex[i]);
 		i++;
 	}
 }

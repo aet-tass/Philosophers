@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/16 23:03:19 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:54:56 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,22 @@ typedef struct philosophers
 	long			last_meal;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+
 	void			*table;
 }					t_Philosopher;
 
 typedef struct Diningtable
 {
 	t_Philosopher		*philosophers;
-	pthread_mutex_t		*mutex;
+	pthread_mutex_t		**mutex;
 	pthread_t			*threads;
 	t_args				*args;
 	int					is_philosopher_dead;
 	int					philo_dead_id;
-}					t_DiningTable;
+	pthread_mutex_t		*mutex_print;
+	pthread_mutex_t		*mutex_death;
+	pthread_mutex_t		*mutex_meal;
+}	t_DiningTable;
 
 void				ft_putstr_fd(char *s, int fd);
 long				ft_time(void);
@@ -61,7 +65,7 @@ int					check_and_store_arguments(int argc, char *argv[],
 int					ft_atoi(char *str);
 int					ft_isdigit(int ch);
 int					ft_strlen(char *str);
-void				ft_sleep(int time, t_DiningTable *table);
+void				ft_sleep(int time);
 long				ft_time(void);
 void				ft_detach(t_DiningTable *table);
 void				*routine(void *arg);

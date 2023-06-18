@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:55 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/16 23:02:45 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:45:34 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,15 @@
 
 int	main(int argc, char *argv[])
 {
-	t_DiningTable	table;
-	int				i;
+	t_DiningTable	*table;
 
-	if (!check_and_store_arguments(argc, argv, &table))
+	table = malloc(sizeof(t_DiningTable));
+	if (!check_and_store_arguments(argc, argv, table))
 		return (1);
-	initialize_table(&table);
+	initialize_table(table);
 	while (1)
 	{
-		if (is_philosopher_dead(&table))
-		{
-			ft_detach(&table);
+		if (is_philosopher_dead(table))
 			return (1);
-		}
 	}
-	i = 0;
-	while (i++ < table.args->num_philosophers)
-		pthread_mutex_destroy(&table.mutex[i]);
-	i = 0;
-	while (i++ < table.args->num_philosophers)
-		pthread_join(table.threads[i], NULL);
-	return (0);
 }
