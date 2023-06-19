@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/19 01:12:46 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:17:45 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void				initialize_mutexes(t_DiningTable *table);
 void				initialize_philosophers(t_DiningTable *table);
 void				initialize_threads(t_DiningTable *table);
 void				initialize_table(t_DiningTable *table);
+int					check_philosopher_death(t_DiningTable *table, int index);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 22:09:37 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/18 23:03:18 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:17:22 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,20 @@ int	is_philosopher_dead(t_DiningTable *table)
 {
 	int	i;
 	int	check;
+	int	is_dead;
 
+	is_dead = 0;
+	pthread_mutex_lock(table->mutex_death);
+	is_dead = table->is_philosopher_dead;
+	pthread_mutex_unlock(table->mutex_death);
+	if (is_dead)
+		return (1);
 	i = 0;
 	check = 0;
 	while (i < table->args->num_philosophers)
 	{
-		if (is_time_to_die(table, i))
-		{
-			mark_philosopher_as_dead(table, i);
-			print_philosopher_death(table, i);
+		if (check_philosopher_death(table, i))
 			return (1);
-		}
 		if (has_philosopher_eaten_enough(table, i))
 		{
 			check += 1;

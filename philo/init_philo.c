@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 22:21:24 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/19 00:59:20 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:36:20 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	initialize_philosophers_data(t_DiningTable *table, long time, int i)
 void	initialize_philosophers(t_DiningTable *table)
 {
 	long	time;
-	int		i;	
+	int		i;
 
 	time = ft_time();
 	table->philosophers = (t_Philosopher *)malloc(sizeof(t_Philosopher)

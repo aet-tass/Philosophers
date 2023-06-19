@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 18:39:30 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/19 01:13:12 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:16:47 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,15 @@ long	ft_time(void)
 	gettimeofday(&current_time, NULL);
 	time_in_ms = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
 	return (time_in_ms);
+}
+
+int	check_philosopher_death(t_DiningTable *table, int index)
+{
+	if (is_time_to_die(table, index))
+	{
+		mark_philosopher_as_dead(table, index);
+		print_philosopher_death(table, index);
+		return (1);
+	}
+	return (0);
 }

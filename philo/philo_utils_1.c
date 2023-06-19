@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:12:59 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/16 18:40:46 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:03:35 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	convert_to_int(char *str, int *index)
 	{
 		if (!ft_isdigit(str[*index]))
 		{
-			ft_putstr_fd("Error\n", 2);
+			ft_putstr_fd("Error :\n", 2);
 			return (0);
 		}
 		res *= 10;

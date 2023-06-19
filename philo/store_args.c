@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 18:04:08 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/16 23:28:10 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:05:17 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	check_number_of_philosophers(int num_philosophers)
 
 int	check_argument_values(int time_to_eat, int time_to_sleep, int time_to_die)
 {
-	if (time_to_eat == 0 || time_to_sleep == 0 || time_to_die == 0)
+	if (time_to_eat <= 0 || time_to_sleep <= 0 || time_to_die <= 0)
 	{
-		ft_putstr_fd("Error: Invalid argument\n", 2);
+		ft_putstr_fd("   Invalid argument\n", 2);
 		return (0);
 	}
 	return (1);
@@ -61,7 +61,7 @@ int	check_and_store_arguments(int argc, char *argv[], t_DiningTable *table)
 		table->args->ntpm_eat = ft_atoi(argv[5]);
 		if (table->args->ntpm_eat <= 0)
 		{
-			ft_putstr_fd("Error: Invalid argument\n", 2);
+			ft_putstr_fd("  Invalid argument\n", 2);
 			return (0);
 		}
 	}
