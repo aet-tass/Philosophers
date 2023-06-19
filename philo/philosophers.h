@@ -6,7 +6,7 @@
 /*   By: aet-tass <aet-tass@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:09:50 by aet-tass          #+#    #+#             */
-/*   Updated: 2023/06/18 22:54:56 by aet-tass         ###   ########.fr       */
+/*   Updated: 2023/06/19 01:12:46 by aet-tass         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct philosophers
 	int				philosopher_id;
 	t_args			*args;
 	int				ntpm_eat;
-	pthread_t		tid;
 	long			start;
 	long			last_meal;
 	pthread_mutex_t	*left_fork;
@@ -67,7 +66,6 @@ int					ft_isdigit(int ch);
 int					ft_strlen(char *str);
 void				ft_sleep(int time);
 long				ft_time(void);
-void				ft_detach(t_DiningTable *table);
 void				*routine(void *arg);
 int					is_time_to_die(t_DiningTable *table, int p_index);
 int					has_philosopher_eaten_enough(t_DiningTable *t,
